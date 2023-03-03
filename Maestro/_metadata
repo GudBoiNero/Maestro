@@ -1,0 +1,12 @@
+{
+	"name": "Maestro",
+	"friendly_name": "Maestro",
+	"description": "A lone warrior. Known for his arsenal.",
+	"author": "GudBoiNero",
+	"version": 1.0,
+	"link": "",
+	"id": "493285937520345",
+	"requires": ["char_loader"],
+	"overwrites": false,
+	"priority": 0,
+}
