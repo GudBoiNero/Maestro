@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=74 format=2]
 
 [ext_resource path="res://characters/BaseChar.tscn" type="PackedScene" id=1]
 [ext_resource path="res://characters/BaseChar.gdshader" type="Shader" id=2]
@@ -46,9 +46,13 @@
 [ext_resource path="res://Maestro/characters/Maestro/sprites/jolt3.png" type="Texture" id=44]
 [ext_resource path="res://Maestro/characters/Maestro/sprites/jolt2.png" type="Texture" id=45]
 [ext_resource path="res://Maestro/characters/Maestro/sprites/actionicons/jolt.png" type="Texture" id=46]
+[ext_resource path="res://Maestro/characters/Maestro/sprites/jolt6.png" type="Texture" id=47]
+[ext_resource path="res://Maestro/characters/Maestro/sprites/jolt7.png" type="Texture" id=48]
 [ext_resource path="res://Maestro/characters/Maestro/sprites/stickman33.png" type="Texture" id=49]
+[ext_resource path="res://Maestro/characters/Maestro/sprites/jolt5.png" type="Texture" id=50]
 [ext_resource path="res://Maestro/characters/Maestro/sprites/wall_slam.png" type="Texture" id=51]
 [ext_resource path="res://Maestro/characters/Maestro/sprites/stickman61.png" type="Texture" id=52]
+[ext_resource path="res://Maestro/characters/Maestro/sprites/jolt8.png" type="Texture" id=53]
 [ext_resource path="res://Maestro/characters/Maestro/sprites/stickman37.png" type="Texture" id=56]
 [ext_resource path="res://Maestro/characters/Maestro/states/RapidSlashes.gd" type="Script" id=59]
 [ext_resource path="res://Maestro/characters/Maestro/sprites/rapid_slashes3.png" type="Texture" id=60]
@@ -156,6 +160,11 @@ animations = [ {
 "name": "Jolt",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 50 ), ExtResource( 47 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 48 ), ExtResource( 53 ), ExtResource( 53 ) ],
+"loop": true,
+"name": "JoltFollowup",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 24 ) ],
 "loop": true,
 "name": "Jump",
@@ -248,12 +257,13 @@ air_friction = "0.3"
 max_air_speed = "15"
 max_fall_speed = "20"
 character_portrait = ExtResource( 82 )
+damage_taken_modifier = "1.15"
 
 [node name="Sprite" parent="Flip" index="0"]
 material = SubResource( 2 )
 frames = SubResource( 3 )
-animation = "Jolt"
-frame = 5
+animation = "JoltFollowup"
+frame = 6
 
 [node name="ShootingArm" type="AnimatedSprite" parent="Flip" index="2"]
 unique_name_in_owner = true
@@ -433,8 +443,13 @@ force_speed = "5.0"
 title = "Jolt"
 type = 1
 button_texture = ExtResource( 46 )
-interrupt_from_string = "Grounded"
-interrupt_into_string = "Grounded"
+interrupt_from_string = "Grounded
+GroundedAttack
+SpecialAttack"
+interrupt_into_string = "Grounded
+GroundedAttack"
+interrupt_exceptions_string = "Jolt"
+hit_cancel_exceptions_string = "Jolt"
 
 [node name="Hitbox" type="Node2D" parent="StateMachine/Jolt" index="0"]
 z_index = 1000
@@ -443,7 +458,38 @@ x = 20
 y = -15
 damage = 20
 hit_height = 2
-dir_y = "-4.0"
+dir_x = "-1.0"
+dir_y = "-3.0"
 knockback = "3.0"
+grounded_hit_state = "HurtAerial"
 start_tick = 6
+active_ticks = 4
+
+[node name="JoltFollowup" type="Node2D" parent="StateMachine" index="52"]
+script = ExtResource( 41 )
+apply_forces = true
+apply_fric = true
+apply_grav = true
+sprite_animation = "JoltFollowup"
+anim_length = 9
+title = "Jolt"
+type = 1
+button_texture = ExtResource( 46 )
+interrupt_from_string = "Jolt
+"
+interrupt_into_string = "Grounded
+GroundedAttack"
+hit_cancel_into_string = "Jolt
+"
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/JoltFollowup" index="0"]
+z_index = 1000
+script = ExtResource( 36 )
+x = 20
+y = -15
+damage = 50
+hit_height = 2
+dir_y = "-0.5"
+knockback = "8.0"
+start_tick = 4
 active_ticks = 4
