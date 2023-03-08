@@ -1,7 +1,6 @@
-# Maestro
+# What's This?
 
-This is just a cool little mod i'm working on.
-
+This is just a cool little YomiHUSTLE mod i'm working on.
 I like open source a lot. 
 So i'm making this one public as a resource for those who want to learn!
 
