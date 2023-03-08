@@ -263,7 +263,6 @@ damage_taken_modifier = "1.15"
 material = SubResource( 2 )
 frames = SubResource( 3 )
 animation = "JoltFollowup"
-frame = 6
 
 [node name="ShootingArm" type="AnimatedSprite" parent="Flip" index="2"]
 unique_name_in_owner = true
@@ -276,6 +275,9 @@ offset = Vector2( 8, 0 )
 [node name="ShootingPoint" type="Position2D" parent="Flip/ShootingArm" index="0"]
 unique_name_in_owner = true
 position = Vector2( 24, 0.999998 )
+
+[node name="Wait" parent="StateMachine" index="8"]
+change_stance_to = "Normal"
 
 [node name="RapidSlashes" type="Node2D" parent="StateMachine" index="47"]
 script = ExtResource( 59 )
@@ -450,6 +452,8 @@ interrupt_into_string = "Grounded
 GroundedAttack"
 interrupt_exceptions_string = "Jolt"
 hit_cancel_exceptions_string = "Jolt"
+allowed_stances_string = "Normal	"
+change_stance_to = "Jolt"
 
 [node name="Hitbox" type="Node2D" parent="StateMachine/Jolt" index="0"]
 z_index = 1000
@@ -475,12 +479,17 @@ anim_length = 9
 title = "Jolt"
 type = 1
 button_texture = ExtResource( 46 )
-interrupt_from_string = "Jolt
-"
+interrupt_from_string = "Grounded
+GroundedAttack
+JoltFollowup"
 interrupt_into_string = "Grounded
-GroundedAttack"
-hit_cancel_into_string = "Jolt
+GroundedAttack
+JoltFollowup
 "
+hit_cancel_into_string = "JoltFollowup
+"
+allowed_stances_string = "Jolt"
+change_stance_to = "Normal"
 
 [node name="Hitbox" type="Node2D" parent="StateMachine/JoltFollowup" index="0"]
 z_index = 1000
